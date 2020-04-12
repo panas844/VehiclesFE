@@ -1,3 +1,5 @@
+
+type CarType=InstanceType<typeof Car>
 class Car{
     plate:string;
     color:string;
