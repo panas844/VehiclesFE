@@ -1,18 +1,34 @@
 
 type CarType=InstanceType<typeof Car>
-class Car{
-    plate:string;
-    color:string;
-    brand:string;
-    wheels:Wheel[]=new Array();
-    
-    constructor(plate:string,color:string,brand:string){
-        this.plate=plate;
-        this.color=color;
-        this.brand=brand;
+// START CAR
+class Car { 
+    _plate:string;
+    _color:string;
+    _brand:string;
+    _wheels:Wheel[]=new Array();
+    constructor(plate: string,color: string, brand: string){
+        this._plate=plate;
+        this._color=color;
+        this._brand=brand;
     }
-    
-    addWheel(wheel:Wheel):void{
-        this.wheels.push(wheel);
+    get plate(): string {
+        return this._plate
     }
-}
+
+    get color(): string {
+        return this._color
+    }
+
+    get brand(): string {
+        return this._brand
+    }
+
+    get wheels(): Wheel[] {
+        return this._wheels
+    }
+
+     
+    addWheel(wheel: Wheel): void {
+        this._wheels.push(wheel)
+    }
+    }
