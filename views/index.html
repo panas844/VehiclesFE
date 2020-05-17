@@ -1,76 +1,135 @@
 <head>
-<script src="../models/car.js"></script>
+ <script src="../models/car.js"></script>
 <script src="../models/wheel.js"></script>
-<script src="../controllers/controller.js"></script>
+<script src="../controllers/controller.js"></script> 
+
  <!-- Required meta tags -->
  <meta charset="utf-8">
  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  <!-- Bootstrap CSS -->
  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
+<style>
+  #errorDiametro1{
+    position: fixed;
+  }
+  #errorDiametro2{
+    position: fixed;
+  }
+</style>
+<script src="https://kit.fontawesome.com/8318a11268.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="container">
-    <form id="carForm" class="invisible">
+    <form id="carForm" class="needs-validation">
         <div class="form-group">
           <label for="plate">Plate</label>
           <input type="text" class="form-control" id="plate">
+          <div class="invalid-feedback" id="errorPlate"></div>
         </div>
         <div class="form-group">
           <label for="brand">Brand</label>
           <input type="text" class="form-control" id="brand">
+          <div class="invalid-feedback" id="errorBrand"></div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="color">Color</label>
             <input type="text" class="form-control" id="color">
+            <div class="invalid-feedback" id="errorColor"></div>
+          </div> -->
+          <div class="form-group">
+            <label for="color">Color</label>
+            <select class="custom-select" id="color" required>
+              <option value="">Choose a color</option>
+              <option value="red">red</option>
+              <option value="black">black</option>
+              <option value="green">green</option>
+            </select>
+            <div class="invalid-feedback" id="errorColor"></div>
           </div>
        
-        <button type="submit" class="btn btn-primary" onclick="return createCar(document.getElementById('plate').value,document.getElementById('brand').value,document.getElementById('color').value)">Create car</button>
+        <button type="submit" class="btn btn-primary" onclick="return createCar()">Create car</button>
       </form>
+
+      
    
-      <div id="result">
+     
 
-    
-      </div>
-
-      <form id="wheelForm" class="visible">
-        <div class="form-group">
+      <form id="wheelForm" onsubmit="addWheels()" hidden>
+        <div class="row">
+          <div class="col">
+        <div class="form-group pb-5">
           <label for="marcarueda1">Marca Rueda 1</label>
-          <input type="text" class="form-control" id="marcarueda1">
+          <input type="text" class="form-control " id="marcarueda1">
         </div>
-        <div class="form-group">
+        <div class="form-group pb-5">
             <label for="marcarueda3">Marca Rueda 3</label>
             <input type="text" class="form-control" id="marcarueda3">
           </div>
-          <div class="form-group">
+        </div>
+        <div class="col">
+          <div class="form-group pb-5">
             <label for="diametrorueda1">Diametro Rueda 1</label>
             <input type="text" class="form-control" id="diametrorueda1">
+            <div class="invalid-feedback" id="errorDiametro1"></div>
+
           </div>
-          <div class="form-group">
+          <div class="form-group pb-5">
             <label for="diametrorueda3">Diametro Rueda 3</label>
             <input type="text" class="form-control" id="diametrorueda3">
+            <div class="invalid-feedback" id="errorDiametro3"></div>
+
           </div>
-          <div class="form-group">
-            <label for="marcarueda2">Marca Rueda 1</label>
+        </div>
+        <div class="col">
+          <div class="form-group pb-5">
+            <label for="marcarueda2">Marca Rueda 2</label>
             <input type="text" class="form-control" id="marcarueda2">
           </div>
-          <div class="form-group">
+          <div class="form-group pb-5">
               <label for="marcarueda4">Marca Rueda 4</label>
               <input type="text" class="form-control" id="marcarueda4">
             </div>
-            <div class="form-group">
+          </div>
+          <div class="col">
+            <div class="form-group pb-5">
               <label for="diametrorueda2">Diametro Rueda 2</label>
               <input type="text" class="form-control" id="diametrorueda2">
+              <div class="invalid-feedback" id="errorDiametro2"></div>
+
             </div>
-            <div class="form-group">
+            <div class="form-group pb-5">
               <label for="diametrorueda4">Diametro Rueda 4</label>
               <input type="text" class="form-control" id="diametrorueda4">
+              <div class="invalid-feedback" id="errorDiametro4"></div>
+
             </div>
+          </div>
+        </div>
         
        
-        <button type="submit" class="btn btn-primary" onclick="return createCar(document.getElementById('plate').value,document.getElementById('brand').value,document.getElementById('color').value)">Create car</button>
+        <button type="submit" class="btn btn-primary" >Create wheel</button>
       </form>
+      <i class="fas fa-car fa-10x" id="carImage" hidden></i>
+      <div id="result">
+      
+      </div>
+
+      <div id="resultWheels1">
+      
+      </div>
+      
+      <div id="resultWheels2">
+      
+      </div>
+      
+      <div id="resultWheels3">
+      
+      </div>
+      
+      <div id="resultWheels4">
+      
+      </div>
+
     </div>
 
 
