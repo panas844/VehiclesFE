@@ -1,22 +1,156 @@
+// import Car, { CarType } from '../models/car'
 
-let car: CarType;
+var car: CarType;
 
-function createCar(plate:string,brand:string,color:string){
-    car=new Car(plate,color,brand);
-    // car.addWheel(new Wheel(2,"SEAT"));
-    const result:any =document.getElementById('result')
-    result.innerHTML="CAR: PLATE: " + car.plate 
-     + " COLOR: " +car.color + " BRAND: " + brand 
-     + " WHEELS: " + JSON.stringify(car.wheels);
-     return false;
+function createCar() {
+    var plate = document.getElementById('plate') as HTMLInputElement;
+    var brand = document.getElementById('brand') as HTMLInputElement;
+    var color = document.getElementById('color') as HTMLInputElement;
+
+    var letterNumber = /^[0-9a-zA-Z]+$/;
+    var numbers = /^[0-9]+$/;
+    var acumErrores = 0
+
+    if (brand.value == "") {
+        brand.classList.add("is-invalid");
+        var errorBrand = document.getElementById("errorBrand") as HTMLDivElement;
+        errorBrand.textContent = "Es campo es obligatorio";
+        acumErrores++;
+    }
+    if (color.value == "") {
+        color.classList.add("is-invalid");
+        var errorColor = document.getElementById("errorColor") as HTMLDivElement
+        errorColor.textContent = "Es campo es obligatorio";
+        acumErrores++;
+    }
+    if (plate.value == "" || plate.value.length !== 7 || !plate.value.match(letterNumber)) {
+        plate.classList.add("is-invalid");
+        var errorPlate = document.getElementById("errorPlate") as HTMLDivElement
+        errorPlate.textContent = "We need 4 letters and 3 numbers"
+        acumErrores++;
+    }
+
+    if (acumErrores > 0) {
+        return false
+    } else {
+        var numberOfLetters = 0
+        var numberOfNumbers = 0
+        for (var i = 0; i < 7; i++) {
+            if (plate.value.charAt(i).match(numbers)) {
+                numberOfNumbers++
+            } else {
+                numberOfLetters++
+            }
+        }
+        if (numberOfLetters === 3 || numberOfNumbers === 4) {
+            car = new Car(plate.value, color.value, brand.value);
+            (document.getElementById('carForm') as HTMLDivElement).hidden = true;
+            (document.getElementById('wheelForm') as HTMLDivElement).hidden = false;
+                (document.getElementById("carImage") as HTMLDivElement).hidden = false;
+                    // Print the new car data
+                    (document.getElementById('result') as HTMLDivElement).innerHTML = "CAR: PLATE: " + car.plate
+                    + " COLOR: " + color.value + " BRAND: " + brand.value
+                    + " WHEELS: " + JSON.stringify(car.wheels);
+            (document.getElementById("carImage") as HTMLElement).style.color = (document.getElementById("color") as HTMLSelectElement).value;
+            return false;
+
+        }
+
+    }
+    // return true
 }
 
-function addWheels(marca1:string,diametro1:number,marca2:string,diametro2:number,marca3:string,diametro3:number,marca4:string,diametro4:number){
 
-    car.addWheel(new Wheel(diametro1,marca1))
-    car.addWheel(new Wheel(diametro2,marca2))
-    car.addWheel(new Wheel(diametro3,marca3))
-    car.addWheel(new Wheel(diametro4,marca4))
 
+
+function addWheels() {
+    var numberErrors = 0;
+    var form = document.forms.namedItem("wheelForm")as HTMLFormElement
+    let marcas = [] as HTMLOptionElement[];
+    let diametros = [];
+
+    for (let i =0;i<4; i++ ) {
+        marcas[i] = form[`marcarueda${String(i+1)}`];
+        diametros[i] = form[`diametrorueda${String(i+1)}`];
+
+    }
+    // var marca1 = form["marcarueda1"] 
+    // var marca2 = form["marcarueda2"]
+    // var marca3 = form["marcarueda3"]
+    // var marca4 = form["marcarueda4"]
+    // var diametro1 = form["diametrorueda1"]
+    // var diametro2 = form["diametrorueda2"]
+    // var diametro3 = form["diametrorueda3"]
+    // var diametro4 = form["diametrorueda4"]
+
+    diametros.forEach((diametro,index) => {
+        if (diametro.value <= 0.4 || diametro.value >= 2) {
+            numberErrors++
+            diametro.classList.add("is-invalid");
+            (document.getElementById(`errorDiametro${String(index+1)}`) as HTMLDivElement).textContent = "The dieameter needs to be between 0.4 and 2"
+        } 
+    })
+
+    // if (diametro1.value <= 0.4 || diametro1.value >= 2) {
+    //     numberErrors++
+    //     diametro1.classList.add("is-invalid");
+    //     (document.getElementById("errorDiametro1") as HTMLDivElement).textContent = "The dieameter needs to be between 0.4 and 2"
+
+
+
+    // } if (diametro2.value <= 0.4 || diametro2.value >= 2) {
+    //     numberErrors++
+    //     diametro2.classList.add("is-invalid");
+    //     (document.getElementById("errorDiametro2") as HTMLDivElement).textContent = "The dieameter needs to be between 0.4 and 2"
+
+
+    // } if (diametro3.value <= 0.4 || diametro3.value >= 2) {
+    //     numberErrors++
+    //     diametro3.classList.add("is-invalid");
+    //     (document.getElementById("errorDiametro3") as HTMLDivElement).textContent = "The dieameter needs to be between 0.4 and 2"
+
+
+    // } if (diametro4.value <= 0.4 || diametro4.value >= 2) {
+    //     numberErrors++
+    //     diametro4.classList.add("is-invalid");
+    //     (document.getElementById("errorDiametro4") as HTMLDivElement).textContent = "The dieameter needs to be between 0.4 and 2"
+
+
+    // }
+
+    if (numberErrors > 0) {
+        return false;
+    } else {
+
+        diametros.forEach((diametro,index) =>{
+            car.addWheel(new Wheel(diametro.value,marcas[index].value))
+
+        })
+        
+        // return true;
+        //   car.addWheel(new Wheel(diametro1.value, marca1.value));
+        // car.addWheel(new Wheel(diametro2.value, marca2.value));
+        // car.addWheel(new Wheel(diametro3.value, marca3.value));
+        // car.addWheel(new Wheel(diametro4.value, marca4.value));
+        enum turns {
+            'First',
+            'Second',
+            'Third',
+            'Fourth'
+        }
+        let wheels = car.wheels;
+        var output = '';
+        wheels.forEach( (wheel,index) => {
+            output = output + `${turns[index]} Wheel Diameter is: <b>${wheel.diameter}</b> and the ${turns[index]} wheel Brand is: <b>${wheel.brand}</b><br>`
+        });
     
+        (document.getElementById('resultWheels1') as HTMLDivElement).innerHTML = output;
+
+        return false;
+      
+
+    }
+
 }
+
+
